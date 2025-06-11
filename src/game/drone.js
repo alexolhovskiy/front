@@ -60,10 +60,10 @@ export class Drone extends Unit{
         this.right();
       }
       if (this.keys.ArrowLeft) {
-        this.ang-=this.angularSpeed;
+        this.ang_r-=this.angularSpeed;
       }
       if (this.keys.ArrowRight) {
-        this.ang+=this.angularSpeed;
+        this.ang_r+=this.angularSpeed;
       }
       if (this.keys.Space){
           // console.log("Space");

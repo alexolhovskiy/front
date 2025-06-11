@@ -10,11 +10,12 @@ export class Unit{
     constructor(ctx,x,y,a,r,c,map,shells,ricoshets,smokes,fires,missiles,borders,units,boxes,walls){
         this.id=0;
         this.pos=[x,y];
-        this.pos_r=[0,0];
+        this.pos_r=[x,y];
         this.ctx=ctx;
         this.map=map;
         this.size=[r];
         this.ang=a;
+        this.ang_r=a;
         this.color=c;
         this.smokes=smokes;
         this.ricoshets=ricoshets;

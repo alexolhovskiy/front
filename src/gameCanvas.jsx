@@ -68,7 +68,7 @@ export const GameCanvas = () => {
         // Отправляем на сервер координаты игрока (предположим game.playerPos есть)
         if (socketRef.current && game.camera.map.units[0] && game.camera.map.units[0].pos) {
           socketRef.current.emit('update_player', 
-            {x:game.camera.map.units[0].pos_r[0],y:game.camera.map.units[0].pos_r[1],ang:game.camera.map.units[0].ang});
+            {x:game.camera.map.units[0].pos_r[0],y:game.camera.map.units[0].pos_r[1],ang:game.camera.map.units[0].ang_r});
 
           // и отправляем на сервер
           for(let i=0;i<game.camera.map.units[0].bullets.length;i++){
