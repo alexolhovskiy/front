@@ -21,7 +21,7 @@ export const GameCanvas = () => {
     let game;
 
     // Подключаем сокет
-    socketRef.current = io();//'https://game-socket-4.onrender.com'); // или твой сервер
+    socketRef.current = io('https://game-socket-4.onrender.com'); // или твой сервер
 
     socketRef.current.on('connect', () => {
       console.log('Socket connected:', socketRef.current.id);
