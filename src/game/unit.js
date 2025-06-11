@@ -42,11 +42,11 @@ export class Unit{
 
         // Создаём объекты Audio
         // Создаём массив звуков для очереди
-        // this.shotSounds = Array(5).fill().map(() => new Audio('/sounds/machine_gun.mp3'));
-        // this.shotSounds.forEach(sound => {
-        //     sound.volume = 0.5; // Громкость
-        // });
-        // this.currentShotIndex = 0;
+        this.shotSounds = Array(5).fill().map(() => new Audio('/sounds/machine_gun.mp3'));
+        this.shotSounds.forEach(sound => {
+            sound.volume = 0.5; // Громкость
+        });
+        this.currentShotIndex = 0;
 
 
         // this.shotSound = new Audio('/sounds/machine_gun.mp3');
@@ -203,10 +203,10 @@ export class Unit{
           // this.shotSound.play();
 
 
-          // const sound = this.shotSounds[this.currentShotIndex];
-          // sound.currentTime = 0; // Сброс на начало
-          // sound.play().catch(err => console.log("Play error:", err)); // Обрабатываем ошибки
-          // this.currentShotIndex = (this.currentShotIndex + 1) % this.shotSounds.length; // Переключаем индекс
+          const sound = this.shotSounds[this.currentShotIndex];
+          sound.currentTime = 0; // Сброс на начало
+          sound.play().catch(err => console.log("Play error:", err)); // Обрабатываем ошибки
+          this.currentShotIndex = (this.currentShotIndex + 1) % this.shotSounds.length; // Переключаем индекс
           
           // const[x,y]=this.setP(this.map.createMatrix(),math.matrix([this.pos[0],this.pos[1],1]));
           const [x,y]=[this.pos[0],this.pos[1]];

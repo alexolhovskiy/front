@@ -80,7 +80,7 @@ export const GameCanvas = () => {
 
         
 
-        setTimeout(gameRef.currentLoop, 1000 / FPS);
+        setTimeout(gameLoop, 1000 / FPS);
       }
 
       gameLoop();
