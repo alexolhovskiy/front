@@ -83,7 +83,7 @@ export const GameCanvas = () => {
         setTimeout(gameRef.currentLoop, 1000 / FPS);
       }
 
-      gameRef.currentLoop();
+      gameLoop();
     });
 
     // Обработчики клавиатуры и мыши
