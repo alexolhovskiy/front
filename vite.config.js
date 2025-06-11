@@ -7,6 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'https://game-socket-4.onrender.com',//'http://localhost:5000', // проксируем запросы к Django API
+      '/socket.io': 'https://game-socket-4.onrender.com',
     },
   },
 });
