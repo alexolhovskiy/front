@@ -67,43 +67,99 @@ export class Map {
     //     }
     // }
 
-    setPlayers(playersData,socketId) {
+    setPlayers(playersData, socketId) {
         if (this.units.length === 0) {
-            const newUnits = [];
+            // const newUnits = [];
 
             // 0-й юнит — игрок
-            const playerData = playersData.myIdData; // по ID твоего игрока
             const pd = playersData[socketId];
-            newUnits.push(new Drone(this.ctx,pd.x,pd.y,0,10,'rgb(255,0,0)',this,this.shells,this.ricoshets,this.smokes,
+            this.units.push(new Drone(this.ctx,pd.x,pd.y,0,10,'rgb(255,0,0)',this,this.shells,this.ricoshets,this.smokes,
                                     this.fires,this.missiles,this.borders,this.units,this.boxes,this.walls));
-
+            
             // Остальные — боты / другие игроки
-            // for (let key in playersData) {
-            //     if (key === socketId) continue;  
-            //     const pd = playersData[key];
-            //     newUnits.push(new Bot(this.ctx,pd.x,pd.y,0,10,'rgb(0,0,255)',this,this.shells,this.ricoshets,this.smokes,
-            //                             this.fires,this.missiles,this.borders,this.units,this.boxes,this.walls));
-            // }
-
-            this.units = newUnits;
-        }else{
-            // Просто обновляем позиции
-            let i = 0;
-            const lerp = (a, b, t) => a + (b - a) * t;
-            const t=0.3;
             for (let key in playersData) {
-                const p = playersData[key];
-                if (this.units[i]) {
-                    // this.units[i].pos[0] = p.x;
-                    // this.units[i].pos[1] = p.y;
-                    
-                    this.units[i].pos[0] = lerp(this.units[i].pos[0], p.x, 0.3);
-                    this.units[i].pos[1] = lerp(this.units[i].pos[1], p.y, 0.3);
+                if (key === socketId) continue;  
+                const pd = playersData[key];
+                this.units.push(new Bot(this.ctx,pd.x,pd.y,0,10,'rgb(0,0,255)',this,this.shells,this.ricoshets,this.smokes,
+                                        this.fires,this.missiles,this.borders,this.units,this.boxes,this.walls));
+            }
+
+            // this.units = newUnits;
+        }else{
+
+            const existingIds = this.units.map(u => u.id); // id = socket.id
+            const updatedIds = Object.keys(playersData);
+
+            // Удаление вышедших
+            // this.units = this.units.filter(unit => updatedIds.includes(unit.id));
+
+            // Добавление новых
+            for (let id of updatedIds) {
+                const pd = playersData[id];
+
+                const existing = this.units.find(u => u.id === id);
+                if (!existing) {
+                    // const isMe = id === socketId;
+                    // const color = isMe ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
+                    // const UnitClass = isMe ? Drone : Bot;
+
+                    const unit = new Bot(
+                        this.ctx, pd.x, pd.y, pd.angle || 0, 10, color,
+                        this, this.shells, this.ricoshets, this.smokes,
+                        this.fires, this.missiles, this.borders, this.units,
+                        this.boxes, this.walls
+                    );
+                    unit.id = id;
+                    this.units.push(unit);
+                } else {
+                    // Обновить существующего
+                    const t = 0.3;
+                    existing.pos[0] = existing.pos[0] * (1 - t) + pd.x * t;
+                    existing.pos[1] = existing.pos[1] * (1 - t) + pd.y * t;
+                    // existing.angle = pd.angle || 0;
                 }
-                i++;
             }
         }
     }
+
+
+    // setPlayers(playersData,socketId) {
+    //     if (this.units.length === 0) {
+    //         const newUnits = [];
+
+    //         // 0-й юнит — игрок
+    //         const playerData = playersData.myIdData; // по ID твоего игрока
+    //         const pd = playersData[socketId];
+    //         newUnits.push(new Drone(this.ctx,pd.x,pd.y,0,10,'rgb(255,0,0)',this,this.shells,this.ricoshets,this.smokes,
+    //                                 this.fires,this.missiles,this.borders,this.units,this.boxes,this.walls));
+
+    //         // Остальные — боты / другие игроки
+    //         for (let key in playersData) {
+    //             if (key === socketId) continue;  
+    //             const pd = playersData[key];
+    //             newUnits.push(new Bot(this.ctx,pd.x,pd.y,0,10,'rgb(0,0,255)',this,this.shells,this.ricoshets,this.smokes,
+    //                                     this.fires,this.missiles,this.borders,this.units,this.boxes,this.walls));
+    //         }
+
+    //         this.units = newUnits;
+    //     }else{
+    //         // Просто обновляем позиции
+    //         let i = 0;
+    //         const lerp = (a, b, t) => a + (b - a) * t;
+    //         const t=0.3;
+    //         for (let key in playersData) {
+    //             const p = playersData[key];
+    //             if (this.units[i]) {
+    //                 // this.units[i].pos[0] = p.x;
+    //                 // this.units[i].pos[1] = p.y;
+                    
+    //                 this.units[i].pos[0] = lerp(this.units[i].pos[0], p.x, 0.3);
+    //                 this.units[i].pos[1] = lerp(this.units[i].pos[1], p.y, 0.3);
+    //             }
+    //             i++;
+    //         }
+    //     }
+    // }
 
     setBullets(bulletsData) {
         bulletsData.forEach(b => {

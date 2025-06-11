@@ -8,6 +8,7 @@ import * as math from 'mathjs';
 
 export class Unit{
     constructor(ctx,x,y,a,r,c,map,shells,ricoshets,smokes,fires,missiles,borders,units,boxes,walls){
+        this.id=0;
         this.pos=[x,y];
         this.pos_r=[0,0];
         this.ctx=ctx;
