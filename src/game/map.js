@@ -113,7 +113,7 @@ export class Map {
                     const t = 0.3;
                     existing.pos[0] = existing.pos[0] * (1 - t) + pd.x * t;
                     existing.pos[1] = existing.pos[1] * (1 - t) + pd.y * t;
-                    // existing.angle = pd.angle || 0;
+                    existing.ang = pd.ang;
                 }
             }
         }
