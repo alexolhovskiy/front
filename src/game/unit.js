@@ -41,13 +41,13 @@ export class Unit{
         // this.keys = { KeyW: false, KeyA: false, KeyS: false, KeyD: false, ShiftLeft: false, Space:false};
         // Создаём объекты Audio
         // Создаём массив звуков для очереди
-        this.shotSounds = Array(5).fill().map(() => new Audio('/static/sounds/machine_gun.mp3'));
+        this.shotSounds = Array(5).fill().map(() => new Audio('/sounds/machine_gun.mp3'));
         this.shotSounds.forEach(sound => {
             sound.volume = 0.5; // Громкость
         });
         this.currentShotIndex = 0;
-        // this.shotSound = new Audio('/static/sounds/machine_gun.mp3');
-        // const moveSound = new Audio('/static/sounds/move.mp3');
+        // this.shotSound = new Audio('/sounds/machine_gun.mp3');
+        // const moveSound = new Audio('/sounds/move.mp3');
         // this.shotSound.volume = 0.5; // Устанавливаем громкость (0.0 - 1.0)
         // moveSound.volume = 0.3;
     }
@@ -96,6 +96,14 @@ export class Unit{
         this.pos_r[0]=temp[0];
         this.pos_r[1]=temp[1];
       }
+  }
+
+  turnRight(){
+      this.ang_r+=this.angularSpeed;
+  }
+
+  turnLeft(){
+      this.ang_r-=this.angularSpeed;
   }
 
  
@@ -190,10 +198,12 @@ export class Unit{
           this.wait=4;
           // this.shotSound.currentTime = 0; // Сброс на начало
           // this.shotSound.play();
-          // const sound = this.shotSounds[this.currentShotIndex];
-          // sound.currentTime = 0; // Сброс на начало
-          // sound.play().catch(err => console.log("Play error:", err)); // Обрабатываем ошибки
-          // this.currentShotIndex = (this.currentShotIndex + 1) % this.shotSounds.length; // Переключаем индекс
+
+
+          const sound = this.shotSounds[this.currentShotIndex];
+          sound.currentTime = 0; // Сброс на начало
+          sound.play().catch(err => console.log("Play error:", err)); // Обрабатываем ошибки
+          this.currentShotIndex = (this.currentShotIndex + 1) % this.shotSounds.length; // Переключаем индекс
           
           // const[x,y]=this.setP(this.map.createMatrix(),math.matrix([this.pos[0],this.pos[1],1]));
           const [x,y]=[this.pos[0],this.pos[1]];

@@ -107,14 +107,29 @@ export const GameCanvas = () => {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={800}
-      height={600}
-      style={{
-        border: '2px solid black',
-        background: '#000',
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        width={800}
+        height={600}
+        style={{
+          border: '2px solid black',
+          background: '#000',
+        }}
+      />
+      <div className='rightBlock'>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].forward()}>W</button>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].right()}>D</button>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].turnRight()}>Right</button>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].main_gun_shoot()}>Shoot</button>
+      </div>
+
+      <div className='leftBlock'>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].backward()}>S</button>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].left()}>A</button>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].turnLeft()}>Left</button>
+        <button className="phone_button" onClick={() => game.camera.map.units[0].main_gun_shoot()}>Shoot</button>
+      </div>
+    </>
   );
 };
