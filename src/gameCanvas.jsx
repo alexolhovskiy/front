@@ -25,6 +25,11 @@ export const GameCanvas = () => {
 
     const token = localStorage.getItem("access_token");
 
+    if (!token) {
+      console.error("Нет токена! Авторизуйся сначала.");
+      return;
+    }
+
     socketRef.current = io('https://game-socket-4.onrender.com', {
       auth: {
         token: token,
