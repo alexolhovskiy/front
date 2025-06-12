@@ -110,7 +110,7 @@ a{
   width:10vw;
   height:100vh;
   position:fixed;
-  z-index: 5;
+  z-index: 15;
   top:0;
   left:0;
   display: flex;
@@ -123,7 +123,7 @@ a{
   width:10vw;
   height:100vh;
   position:fixed;
-  z-index: 5;
+  z-index: 15;
   top:0;
   left:90vw;
   display: flex;
