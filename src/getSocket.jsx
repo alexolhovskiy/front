@@ -35,7 +35,7 @@ export const connectSocket = async (dispatch) => {
   }
 
   // ✅ Подключаемся с актуальным токеном
-  const socket = io('https://game-socket-4.onrender.com',{//"http://localhost:5000", {
+  const socket = io('wss://game-socket-4.onrender.com',{//"http://localhost:5000", {
     auth: {
       token: token,
     },
