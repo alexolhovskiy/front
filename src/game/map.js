@@ -71,7 +71,7 @@ export class Map {
         if (this.units.length === 0) {
             // 0-й юнит — игрок
             const pd = playersData[socketId];
-            const drone=new Drone(this.ctx,pd.x,pd.y,0,10,'rgb(255,0,0)',this,this.shells,this.ricoshets,this.smokes,
+            const drone=new Drone(this.ctx,pd.x,pd.y,0,10,pd.color,this,this.shells,this.ricoshets,this.smokes,
                                     this.fires,this.missiles,this.borders,this.units,this.boxes,this.walls);
             drone.id = socketId;
             this.units.push(drone);
@@ -79,7 +79,7 @@ export class Map {
             for (let key in playersData) {
                 if (key === socketId) continue;  
                 const pd = playersData[key];
-                const bot=new Bot(this.ctx,pd.x,pd.y,0,10,'rgb(0,0,255)',this,this.shells,this.ricoshets,this.smokes,
+                const bot=new Bot(this.ctx,pd.x,pd.y,0,10,pd.color,this,this.shells,this.ricoshets,this.smokes,
                                         this.fires,this.missiles,this.borders,this.units,this.boxes,this.walls);
                 bot.id = key;
                 this.units.push(bot);
@@ -101,7 +101,7 @@ export class Map {
                 if (!existing) {
 
                     const unit = new Bot(
-                        this.ctx, pd.x, pd.y, pd.angle || 0, 10, 'rgb(0,0,255)',
+                        this.ctx, pd.x, pd.y, pd.angle || 0, 10, pd.color,
                         this, this.shells, this.ricoshets, this.smokes,
                         this.fires, this.missiles, this.borders, this.units,
                         this.boxes, this.walls
