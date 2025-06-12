@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'https://game-socket-4.onrender.com',//'http://localhost:5000', // проксируем запросы к Django API
+      '/api': 'https://game-socket-4.onrender.com',// 'http://localhost:5000', //проксируем запросы к Django API
       // '/socket.io': 'https://game-socket-4.onrender.com',
-      changeOrigin: true,
-      secure: false, // ⚠️ можно убрать на проде
+      // changeOrigin: true,
+      // secure: false, // ⚠️ можно убрать на проде
     },
   },
 });

@@ -28,6 +28,10 @@ const authSlice = createSlice({
         localStorage.removeItem('token');
         localStorage.removeItem('refresh_token');
     },
+    setAuthenticated: (state, action) => {
+      state.token = action.payload;
+      state.isAuthenticated = true;
+    },
     setToken: (state, action) => {
       state.token = action.payload;
     },
@@ -49,5 +53,5 @@ const authSlice = createSlice({
   }
 });
 
-export const { logout, setToken } = authSlice.actions;
+export const { logout, setToken,setAuthenticated } = authSlice.actions;
 export default authSlice.reducer;

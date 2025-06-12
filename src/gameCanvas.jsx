@@ -3,11 +3,14 @@ import { io } from 'socket.io-client'; // импортируем
 import { loadSettings, FPS } from './game/settings';
 import { Game } from './game/game';
 import { FPSCounter } from './game/fps';
+import { connectSocket } from './getSocket';
+import { useDispatch } from 'react-redux';
 
 export const GameCanvas = () => {
   const canvasRef = useRef(null);
   const socketRef = useRef(null); // сокет тут
   const gameRef = useRef(null);
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -20,41 +23,50 @@ export const GameCanvas = () => {
       { name: 'house', src: 'assets/blender2.png' },
     ];
 
-    // Подключаем сокет
-    // socketRef.current = io('https://game-socket-4.onrender.com'); // или твой сервер
+    const initSocket = async () => {
+      const socket = await connectSocket(dispatch);
+      if (!socket) {
+        console.error("❌ Не удалось подключиться к сокету");
+        return;
+      }
 
-    const token = localStorage.getItem("access_token");
+      socketRef.current = socket;
 
-    if (!token) {
-      console.error("Нет токена! Авторизуйся сначала.");
-      return;
-    }
+      // ✅ Всё, теперь можно подписываться:
+      socketRef.current.on('connect', () => {
+        console.log('Socket connected:', socketRef.current.id);
+      });
 
-    socketRef.current = io('https://game-socket-4.onrender.com', {
-      auth: {
-        token: token,
-      },
-    });
+      socketRef.current.on('players', (playersData) => {
+        if (gameRef.current)
+          gameRef.current.setPlayers(playersData, socketRef.current.id);
+      });
 
+      socketRef.current.on('your_id', (id) => {
+        socketRef.current.id = id;
+      });
 
-    socketRef.current.on('connect', () => {
-      console.log('Socket connected:', socketRef.current.id);
-    });
+      socketRef.current.on('bullets', (bulletsData) => {
+        console.log("[socket] Получены пули:", bulletsData);
+        if (gameRef.current) gameRef.current.setBullets(bulletsData);
+      });
 
-    socketRef.current.on('players', (playersData) => {
-      // Передаём данные игроков в игру
-      if (gameRef.current) gameRef.current.setPlayers(playersData,socketRef.current.id);
-    });
+    };
 
-    socketRef.current.on('your_id', (id) => {
-      socketRef.current.id = id;
-    });
+    initSocket();
 
-    socketRef.current.on('bullets', (bulletsData) => {
-      console.log("[socket] Получены пули:", bulletsData);
-      if (gameRef.current) gameRef.current.setBullets(bulletsData);
-    });
+    // socketRef.current.on('connect', () => {
+    //   console.log('Socket connected:', socketRef.current.id);
+    // });
 
+    // socketRef.current.on('players', (playersData) => {
+    //   // Передаём данные игроков в игру
+    //   if (gameRef.current) gameRef.current.setPlayers(playersData,socketRef.current.id);
+    // });
+
+    // socketRef.current.on('your_id', (id) => {
+    //   socketRef.current.id = id;
+    // });
 
     const loadTextures = (callback) => {
       let loaded = 0;
@@ -118,7 +130,7 @@ export const GameCanvas = () => {
         socketRef.current.disconnect();
       }
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
